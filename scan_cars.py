@@ -272,8 +272,6 @@ def main() -> int:
                     help="добавлять пробелы в прицепных номерах: ВР265577 -> ВР 2655 77")
     ap.add_argument("--replay", default=os.environ.get("SCAN_CARS_REPLAY"),
                     help="JSON-файл с готовыми ответами модели (для тестов, без API)")
-    ap.add_argument("--wait-lock", type=int, default=0, metavar="СЕК",
-                    help="ждать освобождения файла реестра, прежде чем сохранять")
     ap.add_argument("--dump-json", default=None, help="сохранить сырые ответы модели в файл")
     args = ap.parse_args()
 
@@ -295,6 +293,14 @@ def main() -> int:
             log("Не найден ключ API. Укажите --api-key, переменную DEEPSEEK_API_KEY "
                 "или файл tools/.deepseek_key")
             return 1
+
+    registry_path = Path(args.registry)
+    if not registry_path.exists() and not args.dry_run:
+        log(f"Реестр не найден: {registry_path}")
+        log('Укажите файл явно: --registry "C:\\путь\\Автомобили.xlsx"')
+        log("Либо запустите с --dry-run, чтобы только посмотреть распознанное.")
+        log(f"Журнал запуска: {LOG_PATH}")
+        return 1
 
     try:
         existing = read_registry(args.registry)
