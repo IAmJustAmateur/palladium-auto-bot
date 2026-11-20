@@ -1,0 +1,16 @@
+# Секреты — никогда не коммитить
+.tg_token
+.deepseek_key
+tg_config.json
+
+# Служебное
+__pycache__/
+*.pyc
+*.pyo
+logs/
+.tg_bot.pid
+
+# Временные файлы превью и скриншотов
+_preview/
+.preview/
+*.tmp
