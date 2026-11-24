@@ -304,8 +304,10 @@ def main() -> int:
                     continue
 
                 if chat_id not in allowed:
-                    send(token, chat_id, "Доступ закрыт.")
-                    log(f"chat {chat_id}: доступ закрыт")
+                    send(token, chat_id,
+                         f"Доступ закрыт.\nВаш chat_id: <code>{chat_id}</code>\n"
+                         "Передайте его администратору — он добавит вас в список.")
+                    log(f"chat {chat_id}: доступ закрыт (не в списке)")
                     continue
 
                 if text.startswith("/start") or text.startswith("/help"):
